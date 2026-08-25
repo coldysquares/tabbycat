@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="description" content="A local-first guitar songbook for plain-text tabs, chords, lyrics, transposition, stage mode, and auto-scroll." />
+<title>Tabbycat — Guitar Songbook</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div><h1>Tabbycat</h1><small>Guitar songbook · plain text · local-first</small></div><button class="btn primary" id="newSongBtn">+ Song</button></div>
+    <input class="search" id="search" placeholder="Search songs…" />
+    <div class="inbox">
+      <strong>TXT Inbox</strong>
+      <div class="toolbar"><label class="btn primary" for="txtInput">Import TXT</label><input class="file-input" id="txtInput" type="file" accept=".txt,text/plain" /><button class="btn" id="watchBtn">Watch folder</button></div>
+      <small>Drop a tab/lyrics .txt anywhere, or watch a folder for new <code>lyrics_tmp*.txt</code> files.</small>
+      <div class="watch-state" id="watchState">Folder watch off.</div>
+    </div>
+    <div class="toolbar"><button class="btn" id="exportBtn">Export JSON</button><label class="btn" for="jsonInput">Import JSON</label><input class="file-input" id="jsonInput" type="file" accept="application/json,.json" /></div>
+    <div id="songList" class="song-list"></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left"><button class="btn" id="stageBtn">Stage mode</button><button class="btn nonstage" id="smallerBtn">A−</button><button class="btn nonstage" id="largerBtn">A+</button></div>
+      <div class="topbar-right"><button class="btn" id="transposeDown">−1</button><span class="pill" id="transposeLabel">Transpose 0</span><button class="btn" id="transposeUp">+1</button><button class="btn" id="resetTranspose">Reset</button></div>
+    </div>
+    <div class="workspace">
+      <section class="card viewer" id="viewer"><div class="song-head"><h2 class="song-title" id="viewTitle"></h2><div class="song-meta" id="viewMeta"></div></div><div class="sheet" id="sheet"></div></section>
+      <section class="card editor" id="editor">
+        <div class="grid"><div class="field"><label>Title</label><input id="titleInput" /></div><div class="field"><label>Artist</label><input id="artistInput" /></div><div class="field"><label>Key</label><input id="keyInput" placeholder="E" /></div><div class="field"><label>Capo</label><input id="capoInput" placeholder="0" /></div></div>
+        <div class="field"><label>Tags</label><input id="tagsInput" placeholder="cover, acoustic" /></div>
+        <div class="field"><label>Plain tab / lyrics</label><textarea id="bodyInput" spellcheck="false"></textarea><div class="hint">Native format is ordinary guitarist text: chord lines above lyrics, [Verse]/[Chorus] headings, and tab blocks. Spacing is preserved. Only recognized chord lines are transposed.</div></div>
+        <div class="source-line" id="sourceLine"></div>
+        <div class="toolbar" style="margin-top:10px"><button class="btn primary" id="saveBtn">Save</button><button class="btn danger" id="deleteBtn">Delete</button></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="scrollbar"><button id="scrollToggle">▶ Scroll</button><input id="speedRange" type="range" min="1" max="14" value="4" /><span class="speed" id="speedLabel">4 px/s</span><button id="scrollTopBtn">↟ Top</button></div>
+<div class="drop-overlay">Drop TXT to import</div>
+<div class="modal-backdrop hidden" id="importModal"><div class="modal"><h2>Import song</h2><p id="importFileLabel"></p><div class="grid"><div class="field"><label>Title</label><input id="importTitle" /></div><div class="field"><label>Artist</label><input id="importArtist" /></div><div class="field"><label>Detected key</label><input id="importKey" /></div><div class="field"><label>Capo</label><input id="importCapo" placeholder="0" /></div></div><div class="modal-actions"><button class="btn" id="cancelImport">Cancel</button><button class="btn primary" id="confirmImport">Add to Tabbycat</button></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="main.js"></script>
+<script src="watch.js"></script>
+</body>
+</html>
