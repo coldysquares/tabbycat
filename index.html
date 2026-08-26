@@ -3,46 +3,146 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="description" content="A local-first guitar songbook for plain-text tabs, chords, lyrics, transposition, stage mode, and auto-scroll." />
-<title>Tabbycat — Guitar Songbook</title>
+<meta name="description" content="Tabbycat — Tabs + Chords Songbook. A local-first guitar songbook for plain-text tabs, chords, lyrics, transposition, stage mode, and auto-scroll." />
+<title>Tabbycat — Tabs + Chords Songbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <div class="app">
   <aside class="sidebar">
-    <div class="brand"><div><h1>Tabbycat</h1><small>Guitar songbook · plain text · local-first</small></div><button class="btn primary" id="newSongBtn">+ Song</button></div>
-    <input class="search" id="search" placeholder="Search songs…" />
-    <div class="inbox">
-      <strong>TXT Inbox</strong>
-      <div class="toolbar"><label class="btn primary" for="txtInput">Import TXT</label><input class="file-input" id="txtInput" type="file" accept=".txt,text/plain" /><button class="btn" id="watchBtn">Watch folder</button></div>
-      <small>Drop a tab/lyrics .txt anywhere, or watch a folder for new <code>lyrics_tmp*.txt</code> files.</small>
-      <div class="watch-state" id="watchState">Folder watch off.</div>
+    <div class="brand-zone">
+      <div class="brand-lockup">
+        <div class="brand-row">
+          <div class="pixel-cat" aria-hidden="true">
+            <svg viewBox="0 0 32 32" role="img">
+              <path d="M3 8h4V4h4v4h10V4h4v4h4v17h-4v3H7v-3H3V8zm6 8h4v4H9v-4zm10 0h4v4h-4v-4zm-6 7h6v2h-6v-2z" fill="currentColor"/>
+            </svg>
+          </div>
+          <h1><span class="tabby">TABBY</span><span class="cat">CAT</span></h1>
+        </div>
+        <small>Tabs + Chords Songbook</small>
+      </div>
+      <button class="btn primary new-song" id="newSongBtn">+ SONG</button>
     </div>
-    <div class="toolbar"><button class="btn" id="exportBtn">Export JSON</button><label class="btn" for="jsonInput">Import JSON</label><input class="file-input" id="jsonInput" type="file" accept="application/json,.json" /></div>
+
+    <div class="module search-module">
+      <div class="module-label">FIND</div>
+      <input class="search" id="search" placeholder="song / artist / tag" />
+    </div>
+
+    <div class="inbox module">
+      <div class="module-label">BRING SONGS IN</div>
+      <div class="toolbar import-toolbar">
+        <label class="btn primary import-btn" for="txtInput">IMPORT TXT</label>
+        <input class="file-input" id="txtInput" type="file" accept=".txt,text/plain" />
+        <button class="btn" id="watchBtn">WATCH FOLDER</button>
+      </div>
+      <small>Drop a .txt anywhere, or watch Downloads for new <code>lyrics_tmp*.txt</code> files.</small>
+      <div class="watch-state" id="watchState">FOLDER WATCH: OFF</div>
+    </div>
+
+    <div class="library-head">
+      <div class="module-label">YOUR SONGBOOK</div>
+      <div class="library-pips" aria-hidden="true"><i></i><i></i><i></i></div>
+    </div>
     <div id="songList" class="song-list"></div>
+
+    <div class="backup module">
+      <div class="module-label">BACKUP</div>
+      <div class="toolbar backup-toolbar">
+        <button class="btn ghost" id="exportBtn">EXPORT JSON</button>
+        <label class="btn ghost" for="jsonInput">IMPORT JSON</label>
+        <input class="file-input" id="jsonInput" type="file" accept="application/json,.json" />
+      </div>
+    </div>
   </aside>
 
   <main class="main">
     <div class="topbar">
-      <div class="topbar-left"><button class="btn" id="stageBtn">Stage mode</button><button class="btn nonstage" id="smallerBtn">A−</button><button class="btn nonstage" id="largerBtn">A+</button></div>
-      <div class="topbar-right"><button class="btn" id="transposeDown">−1</button><span class="pill" id="transposeLabel">Transpose 0</span><button class="btn" id="transposeUp">+1</button><button class="btn" id="resetTranspose">Reset</button></div>
+      <div class="topbar-left control-cluster">
+        <span class="cluster-label">VIEW</span>
+        <button class="btn stage-btn" id="stageBtn">STAGE</button>
+        <button class="btn nonstage square" id="smallerBtn" aria-label="Smaller text">A−</button>
+        <button class="btn nonstage square" id="largerBtn" aria-label="Larger text">A+</button>
+      </div>
+      <div class="topbar-right control-cluster">
+        <span class="cluster-label">TRANSPOSE</span>
+        <button class="btn square" id="transposeDown">−1</button>
+        <span class="pill" id="transposeLabel">0</span>
+        <button class="btn square" id="transposeUp">+1</button>
+        <button class="btn reset-btn" id="resetTranspose">RESET</button>
+      </div>
     </div>
+
     <div class="workspace">
-      <section class="card viewer" id="viewer"><div class="song-head"><h2 class="song-title" id="viewTitle"></h2><div class="song-meta" id="viewMeta"></div></div><div class="sheet" id="sheet"></div></section>
-      <section class="card editor" id="editor">
-        <div class="grid"><div class="field"><label>Title</label><input id="titleInput" /></div><div class="field"><label>Artist</label><input id="artistInput" /></div><div class="field"><label>Key</label><input id="keyInput" placeholder="E" /></div><div class="field"><label>Capo</label><input id="capoInput" placeholder="0" /></div></div>
+      <section class="viewer" id="viewer">
+        <div class="sheet-stripe" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="song-head">
+          <div>
+            <div class="eyebrow">NOW PLAYING</div>
+            <h2 class="song-title" id="viewTitle"></h2>
+            <div class="song-meta" id="viewMeta"></div>
+          </div>
+          <div class="mini-chord-grid" aria-hidden="true">
+            <b></b><b></b><b></b><b></b><b></b><b></b>
+          </div>
+        </div>
+        <div class="sheet" id="sheet"></div>
+      </section>
+
+      <section class="editor" id="editor">
+        <div class="editor-head">
+          <div>
+            <div class="module-label">EDIT SOURCE</div>
+            <strong>RAW SONG</strong>
+          </div>
+          <div class="pixel-face" aria-hidden="true">=^..^=</div>
+        </div>
+        <div class="grid">
+          <div class="field"><label>Title</label><input id="titleInput" /></div>
+          <div class="field"><label>Artist</label><input id="artistInput" /></div>
+          <div class="field"><label>Key</label><input id="keyInput" placeholder="E" /></div>
+          <div class="field"><label>Capo</label><input id="capoInput" placeholder="0" /></div>
+        </div>
         <div class="field"><label>Tags</label><input id="tagsInput" placeholder="cover, acoustic" /></div>
-        <div class="field"><label>Plain tab / lyrics</label><textarea id="bodyInput" spellcheck="false"></textarea><div class="hint">Native format is ordinary guitarist text: chord lines above lyrics, [Verse]/[Chorus] headings, and tab blocks. Spacing is preserved. Only recognized chord lines are transposed.</div></div>
+        <div class="field body-field">
+          <label>Plain tab / lyrics</label>
+          <textarea id="bodyInput" spellcheck="false"></textarea>
+          <div class="hint">Type it like a guitarist. Chord lines stay above lyrics, sections use [Verse] / [Chorus], and tab spacing is preserved.</div>
+        </div>
         <div class="source-line" id="sourceLine"></div>
-        <div class="toolbar" style="margin-top:10px"><button class="btn primary" id="saveBtn">Save</button><button class="btn danger" id="deleteBtn">Delete</button></div>
+        <div class="toolbar editor-actions"><button class="btn primary" id="saveBtn">SAVE</button><button class="btn danger" id="deleteBtn">DELETE</button></div>
       </section>
     </div>
   </main>
 </div>
 
-<div class="scrollbar"><button id="scrollToggle">▶ Scroll</button><input id="speedRange" type="range" min="1" max="14" value="4" /><span class="speed" id="speedLabel">4 px/s</span><button id="scrollTopBtn">↟ Top</button></div>
-<div class="drop-overlay">Drop TXT to import</div>
-<div class="modal-backdrop hidden" id="importModal"><div class="modal"><h2>Import song</h2><p id="importFileLabel"></p><div class="grid"><div class="field"><label>Title</label><input id="importTitle" /></div><div class="field"><label>Artist</label><input id="importArtist" /></div><div class="field"><label>Detected key</label><input id="importKey" /></div><div class="field"><label>Capo</label><input id="importCapo" placeholder="0" /></div></div><div class="modal-actions"><button class="btn" id="cancelImport">Cancel</button><button class="btn primary" id="confirmImport">Add to Tabbycat</button></div></div></div>
+<div class="scrollbar">
+  <span class="scroll-label">AUTO</span>
+  <button id="scrollToggle">▶ SCROLL</button>
+  <input id="speedRange" type="range" min="1" max="14" value="4" />
+  <span class="speed" id="speedLabel">4 px/s</span>
+  <button id="scrollTopBtn">↟ TOP</button>
+</div>
+<div class="drop-overlay"><div><span>DROP IT.</span><small>TXT → TABBYCAT</small></div></div>
+<div class="modal-backdrop hidden" id="importModal">
+  <div class="modal">
+    <div class="modal-topline"></div>
+    <div class="module-label">NEW ARRIVAL</div>
+    <h2>IMPORT SONG</h2>
+    <p id="importFileLabel"></p>
+    <div class="grid">
+      <div class="field"><label>Title</label><input id="importTitle" /></div>
+      <div class="field"><label>Artist</label><input id="importArtist" /></div>
+      <div class="field"><label>Detected key</label><input id="importKey" /></div>
+      <div class="field"><label>Capo</label><input id="importCapo" placeholder="0" /></div>
+    </div>
+    <div class="modal-actions"><button class="btn" id="cancelImport">CANCEL</button><button class="btn primary" id="confirmImport">ADD TO TABBYCAT</button></div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script src="main.js"></script>
