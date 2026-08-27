@@ -18,13 +18,11 @@ if (!window.__TAURI_INTERNALS__ || !watchBtn || !watchState) {
     if (!isTarget(path)) return;
     try {
       const text = await readTextFile(path);
-      if (typeof window.tabbycatQueueText === 'function') {
-        await window.tabbycatQueueText({
-          name: basename(path),
-          text,
-          source: path
-        });
+      if (typeof window.queueTextFile !== 'function') {
+        throw new Error('Tabbycat TXT importer is unavailable');
       }
+      const file = new File([text], basename(path), { type: 'text/plain' });
+      await window.queueTextFile(file, path);
     } catch (error) {
       watchState.textContent = `COULD NOT READ: ${basename(path)}`;
       console.error('Tabbycat native watch read failed', error);
