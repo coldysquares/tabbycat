@@ -1,0 +1,34 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main-capability",
+  "description": "Permissions required by the Tabbycat desktop window",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "dialog:default",
+    "store:default",
+    "fs:default",
+    {
+      "identifier": "fs:allow-read-text-file",
+      "allow": [
+        { "path": "$HOME/Downloads/*" },
+        { "path": "$HOME/Downloads/**/*" },
+        { "path": "$HOME/Desktop/*" },
+        { "path": "$HOME/Desktop/**/*" },
+        { "path": "$HOME/Documents/*" },
+        { "path": "$HOME/Documents/**/*" }
+      ]
+    },
+    {
+      "identifier": "fs:allow-watch",
+      "allow": [
+        { "path": "$HOME/Downloads/*" },
+        { "path": "$HOME/Downloads/**/*" },
+        { "path": "$HOME/Desktop/*" },
+        { "path": "$HOME/Desktop/**/*" },
+        { "path": "$HOME/Documents/*" },
+        { "path": "$HOME/Documents/**/*" }
+      ]
+    }
+  ]
+}

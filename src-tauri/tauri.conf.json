@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Tabbycat",
+  "version": "0.2.0",
+  "identifier": "com.wollohy.tabbycat",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devUrl": "http://127.0.0.1:1420",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+        "label": "main",
+        "title": "Tabbycat — Tabs + Chords Songbook",
+        "width": 1440,
+        "height": 900,
+        "minWidth": 980,
+        "minHeight": 680,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true
+      }
+    ]
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app", "dmg"],
+    "category": "Music",
+    "shortDescription": "Tabs + Chords Songbook",
+    "longDescription": "A local-first guitar songbook for plain-text tabs, chords, lyrics, transposition, stage mode and auto-scroll."
+  }
+}
