@@ -1,0 +1,19 @@
+[package]
+name = "tabbycat"
+version = "0.2.0"
+description = "Tabbycat — Tabs + Chords Songbook"
+authors = ["coldysquares"]
+edition = "2021"
+
+[lib]
+name = "tabbycat_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = "=2.6.3"
+
+[dependencies]
+tauri = "=2.11.5"
+tauri-plugin-dialog = "=2.7.2"
+tauri-plugin-fs = { version = "=2.5.1", features = ["watch"] }
+tauri-plugin-persisted-scope = "=2.3.7"

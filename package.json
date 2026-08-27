@@ -1,0 +1,18 @@
+{
+  "name": "tabbycat",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Tabbycat — Tabs + Chords Songbook",
+  "scripts": {
+    "desktop:sync": "node scripts/sync-desktop.mjs",
+    "desktop:check": "node scripts/check-desktop.mjs",
+    "desktop:dev": "tauri dev",
+    "desktop:build": "tauri build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.11.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
