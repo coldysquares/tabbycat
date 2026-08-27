@@ -1,0 +1,39 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Tabbycat",
+  "version": "0.2.0",
+  "identifier": "com.coldysquares.tabbycat",
+  "build": {
+    "beforeDevCommand": "npm run desktop:sync",
+    "beforeBuildCommand": "npm run desktop:sync",
+    "frontendDist": "../desktop-dist"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "label": "main",
+        "title": "Tabbycat — Tabs + Chords Songbook",
+        "width": 1440,
+        "height": 920,
+        "minWidth": 980,
+        "minHeight": 650,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["app", "dmg"],
+    "category": "Music",
+    "shortDescription": "Tabs + Chords Songbook",
+    "longDescription": "A local-first guitar songbook for plain-text tabs, chords, lyrics, transposition, stage mode, auto-scroll and watched-folder import.",
+    "macOS": {
+      "minimumSystemVersion": "12.0"
+    }
+  }
+}
